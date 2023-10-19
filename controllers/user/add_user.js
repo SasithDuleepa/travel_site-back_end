@@ -30,15 +30,28 @@ const AddUser = (req,res) => {
                             message:"Error saving user"
                         })
                     }else if(result){
-                        // res.json({
-                        //     status:200,
-                        //     message:"User saved successfully"
-                        // })
 
                         //create cart for user
+                        const cart_id = result.user_id;
+                        const query_3 = `INSERT INTO cart (cart_id,user_id) VALUES ('${cart_id}','${cart_id}')`
+                        DB.connection.query(query_3,(err,result)=>{
+                            if(err){
+                                res.json({
+                                    status:400,
+                                    message:"Error creating cart"
+                                })
+                            }else if(result){
+                                // res.json({
+                                //     status:200,
+                                //     message:"User saved successfully"
+                                // })
+
+                                //create tour
+                            }
                         
+                    })
+
                     }
-                
             })
         }
     

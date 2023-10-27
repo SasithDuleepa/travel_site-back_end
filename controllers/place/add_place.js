@@ -28,14 +28,14 @@ const AddPlace = (req, res) => {
                     const imgquery = `INSERT INTO place_img (img_name,place_id) VALUES ('${file.filename}','${Id}')`;
                     console.log(file.filename)
                     DB.connection.query(imgquery,(err,result)=>{
-                        if(err){
+                        if(result){
                                 processedFiles++;
                                 if (processedFiles === req.files.length) {
                                 // Send the response after all files have been processed
                                 res.send({ status: 200, message: "Place added successfully" });
                                 }
                                 
-                        }else if(result){
+                        }else if(err){
                                 UnprocessedFiles++;
                                 if (UnprocessedFiles === req.files.length) {
                                 // Send the response after all files have been processed

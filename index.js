@@ -8,6 +8,7 @@ const DB = require('./config/database');
 const Place = require('./routes/place_routes')
 const Category = require('./routes/category_routes')
 const TourPackage = require('./routes/tourpackage_routes')
+const DayTour = require('./routes/dayTour_routs')
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(cors())
 app.use('/places', Place);
 app.use('/categories', Category);
 app.use('/tourpackage', TourPackage);
+app.use('/daytour', DayTour);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

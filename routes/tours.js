@@ -3,7 +3,7 @@ const  path = require('path');
 
 const upload = require('../middleware/multer/tourCategory');
 
-const AddTourCategory = require('../controllers/tour package/add_tourpackage');
+const AddTourCategory = require('../controllers/tours/add_tours');
 
 
 

@@ -11,6 +11,8 @@ const TourPackage = require('./routes/tours')
 const TourCategory = require('./routes/tourCategory_routs')
 const DayTour = require('./routes/dayTour_routs')
 
+const Images = require('./routes/images_routes')
+
 const app = express();
 
 DB.connect()
@@ -24,6 +26,8 @@ app.use('/categories', Category);
 app.use('/tourpackage', TourPackage);
 app.use('/tourcategory', TourCategory);
 app.use('/daytour', DayTour);
+
+app.use('/images', Images);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

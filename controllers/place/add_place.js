@@ -2,10 +2,10 @@ const DB = require('./../../config/database');
 const { v4: uuidv4 } = require('uuid');
 
 const AddPlace = (req, res) => {
-    // console.log(req.body)
+    console.log(req.body)
     // console.log(req.files)
     
-    const {name,description,time,fee,lat,lng} = req.body;
+    const {name,description,time,fee,lat,lng,shortDescription} = req.body;
 
     if (req.files && req.files.length > 0) {
   
@@ -17,7 +17,7 @@ const AddPlace = (req, res) => {
                 // Generate a new UUID
                 const Id = uuidv4();
 
-                const query = `INSERT INTO place (place_id,place_name,place_description,place_lat,place_lng,visit_time,visiting_fee) VALUES ('${Id}','${name}','${description}',${lat},${lng},'${time}','${fee}')`;
+                const query = `INSERT INTO place (place_id,place_name,place_description,place_lat,place_lng,visit_time,visiting_fee,short_description) VALUES ('${Id}','${name}','${description}',${lat},${lng},'${time}','${fee}','${shortDescription}')`;
                 DB.connection.query(query, (err, result) => {
                     if (result) {
                 //files save

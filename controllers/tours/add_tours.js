@@ -3,7 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 
 const AddTourCategory = (req,res) =>{
     const {packageName,description,price,dayData} = req.body;
-    const image = req.files.image;
+    console.log('file nammmmme',req.files)
+    const image = req.files[0].filename;
     const TourPackegeId = uuidv4();
     const Tour_Packeg_Id = TourPackegeId.substr(0, 6);
     const tour_packeg_id = 'tp-'+ Tour_Packeg_Id;
@@ -51,6 +52,7 @@ const AddTourCategory = (req,res) =>{
                                 }else if(result){
                                     
                                     place_sucsess++;
+                                    console.log( place_sucsess ,element.places.length )
                                     
                                 }
                             }
@@ -58,6 +60,7 @@ const AddTourCategory = (req,res) =>{
                             if(place_failed === element.places.length){
                                 res.send({status:400,message:"Something went wrong"})
                             }else if(place_sucsess === element.places.length){
+                                console.log( place_sucsess ,element.places.length )
                                 res.send({status:200,message:"Tour package added successfully"})
                             }
                            

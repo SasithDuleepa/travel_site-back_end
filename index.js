@@ -7,7 +7,7 @@ const DB = require('./config/database');
 
 const Place = require('./routes/place_routes')
 const Category = require('./routes/category_routes')
-const TourPackage = require('./routes/tours')
+const Tour = require('./routes/tours_routes')
 const TourCategory = require('./routes/tourCategory_routs')
 const DayTour = require('./routes/dayTour_routs')
 
@@ -23,7 +23,7 @@ app.use(cors())
 
 app.use('/places', Place);
 app.use('/categories', Category);
-app.use('/tourpackage', TourPackage);
+app.use('/tour', Tour);
 app.use('/tourcategory', TourCategory);
 app.use('/daytour', DayTour);
 

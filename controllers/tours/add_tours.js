@@ -2,7 +2,7 @@ const DB = require('../../config/database');
 const { v4: uuidv4 } = require('uuid');
 
 const AddTourCategory = (req,res) =>{
-    const {packageName,description,price,dayData} = req.body;
+    const {packageName,description,price,dayData,distance} = req.body;
     console.log('file nammmmme',req.files)
     const image = req.files[0].filename;
     const TourPackegeId = uuidv4();
@@ -10,8 +10,8 @@ const AddTourCategory = (req,res) =>{
     const tour_packeg_id = 'tp-'+ Tour_Packeg_Id;
 
     if(packageName !== '' || description !== '' || price !== '' || dayData !== ''){
-        const query_1 = `INSERT INTO tour (tour_id,tour_name,tour_description,tour_price,tour_img) 
-                        VALUES ('${tour_packeg_id}','${packageName}','${description}','${price}','${image}')`;
+        const query_1 = `INSERT INTO tour (tour_id,tour_name,tour_description,tour_price,tour_img,distance) 
+                        VALUES ('${tour_packeg_id}','${packageName}','${description}','${price}','${image}','${distance}')`;
                         
         DB.connection.query(query_1,(err,result)=>{
             
@@ -27,8 +27,8 @@ const AddTourCategory = (req,res) =>{
                     const DayId = uuidv4();
                     const Day_Id = DayId.substr(0, 6);
                     const day_id = 'tp-day-'+Day_Id;
-                    const query_2 = `INSERT INTO tour_date (tour_date_id,tour_id,tour_date)
-                                    VALUES ('${day_id}','${tour_packeg_id}','${element.day}')`;
+                    const query_2 = `INSERT INTO tour_date (tour_date_id,tour_id,tour_date,luxary_hotel,semi_hotel)
+                                    VALUES ('${day_id}','${tour_packeg_id}','${element.day}','${element.luxury}','${element.semiluxury}')`;
                                     
                     DB.connection.query(query_2,(err,result)=>{
                         if(err){

@@ -1,7 +1,7 @@
 const express = require('express');
 const  path = require('path');
 
-const upload = require('../middleware/multer/tourCategory');
+const upload = require('../middleware/multer/tour');
 
 const AddTourCategory = require('../controllers/tours/add_tours');
 
@@ -12,10 +12,11 @@ const ToursAccToTourCategory =require('../controllers/tours/tours_acc_tourcatego
 
 const GetTourDays = require('../controllers/tours/tour_days')
 
+const TourPlacesAccToDateId = require('../controllers/tours/tour_places')
 
 
 const router = express.Router();
-router.use(express.static(path.join((__dirname, "uploads/tour_category"))));
+router.use(express.static(path.join((__dirname, "uploads/tour"))));
 
 router.post('/addTourCategory',upload.array('file',10), AddTourCategory);
 
@@ -28,6 +29,8 @@ router.get('/tours/:tourcategory',ToursAccToTourCategory)
 
 
 router.get('/tourdays/:tourid',GetTourDays)
+
+router.get('/tourplaces/:tourdateid',TourPlacesAccToDateId)
 
 
 module.exports = router;

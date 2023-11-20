@@ -14,6 +14,8 @@ const GetTourDays = require('../controllers/tours/tour_days')
 
 const TourPlacesAccToDateId = require('../controllers/tours/tour_places')
 
+const Places = require('./../controllers/tours/places')
+
 
 const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/tour"))));
@@ -32,5 +34,6 @@ router.get('/tourdays/:tourid',GetTourDays)
 
 router.get('/tourplaces/:tourdateid',TourPlacesAccToDateId)
 
+router.get('/places/:tourId',Places)
 
 module.exports = router;

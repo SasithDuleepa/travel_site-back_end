@@ -12,6 +12,7 @@ const TourCategory = require('./routes/tourCategory_routs')
 const DayTour = require('./routes/dayTour_routs')
 const Hotels = require('./routes/hotel_routes')
 const PopularPlace =require('./routes/popularPlace_routes')
+const Vehicles = require('./routes/vahicle_routes')
 
 const Images = require('./routes/images_routes')
 
@@ -30,6 +31,7 @@ app.use('/tourcategory', TourCategory);
 app.use('/daytour', DayTour);
 app.use('/hotels', Hotels);
 app.use('/popular', PopularPlace);
+app.use('/vehicles', Vehicles);
 
 app.use('/images', Images);
 

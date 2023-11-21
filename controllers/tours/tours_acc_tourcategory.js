@@ -10,7 +10,7 @@ const ToursAccToTourCategory = (req,res) =>{
         DB.connection.query(query,(err,Result)=>{
             if(Result){
                 
-                console.log(Result)
+                // console.log(Result)
 
                 res.send(Result)
             }else{

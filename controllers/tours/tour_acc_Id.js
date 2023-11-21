@@ -25,7 +25,7 @@ const GetToursAccToId = (req,res) =>{
             if(err) throw err;
             else{
                 res.send(result);
-                console.log(result)
+                // console.log(result)
             }
 
         })

@@ -12,7 +12,7 @@ const Places = (req,res) =>{
                     DB.connection.query(query,(err,result)=>{
                         if(result){
                             res.send(result)
-                            console.log(result)
+                            // console.log(result)
                         }else{
                             console.log(err)
                         }

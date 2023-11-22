@@ -15,7 +15,12 @@ const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/places"))));
 
 router.get('/placeimg', Placeimg);
-router.post('/addplace',upload.array('file',10), AddPlace);
+router.post('/addplace',upload.fields([
+                                        { name: 'cardImg', maxCount: 1 },
+                                        { name: 'coverImgs', maxCount: 1 },
+                                        { name: 'files', maxCount: 5 }, // Adjust maxCount based on your requirements
+  ]), AddPlace);
+
 router.get('/all',AllPlace);
 router.get('/placesearch/:place',PlaceSearch);
 router.get('/getplace/:place',GetPlace);

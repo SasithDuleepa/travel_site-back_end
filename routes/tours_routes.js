@@ -16,6 +16,14 @@ const TourPlacesAccToDateId = require('../controllers/tours/tour_places')
 
 const Places = require('./../controllers/tours/places')
 
+const TourPlaces = require('./../controllers/tours/tour_places_accto_day')
+
+const TourImg = require('./../controllers/tours/tour_img')
+
+const TourUpdate = require('./../controllers/tours/tour_update')
+
+const DeleteTour = require('./../controllers/tours/delete_tour')
+
 
 const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/tour"))));
@@ -35,5 +43,15 @@ router.get('/tourdays/:tourid',GetTourDays)
 router.get('/tourplaces/:tourdateid',TourPlacesAccToDateId)
 
 router.get('/places/:tourId',Places)
+
+router.get('/tour_places/:tourdateid',TourPlaces)
+
+router.get('/tourimg',TourImg)
+
+router.put('/tourupdate/:id',upload.array('file',10),TourUpdate)
+
+router.delete('/tourdelete/:id',DeleteTour)
+
+
 
 module.exports = router;

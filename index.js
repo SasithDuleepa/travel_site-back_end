@@ -29,8 +29,14 @@ DB.connect()
 app.use(bodyParser.json())
 app.use(express.json());
 
-app.use(cors({ origin: 'https://travel.tfdatamaster.com/', credentials: true}));
+app.use(cors({ origin: 'https://travel.tfdatamaster.com', credentials: true}));
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://travel.tfdatamaster.com');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 
 app.use('/places', Place);

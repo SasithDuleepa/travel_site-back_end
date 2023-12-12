@@ -1,144 +1,105 @@
 const DB = require('./../../config/database');
 const fs = require('fs').promises;
 
-const PlaceUpdate = async(req,res) =>{
-    const {id} = req.params;
-    const{coverImgs,cardImg,deletedImgs,   name,lat ,lng,time,fee,description,short} = req.body;
-    const{newCoverImg,newCardImg,newImgs}= req.files;
-    console.log(req.body);
-    // console.log(deletedImgs);
+const PlaceUpdate = async (req, res) => {
+    const { id } = req.params;
+    const { coverImgs, cardImg, deletedImgs, name, lat, lng, time, fee, description, short } = req.body;
+    const { newCoverImg, newCardImg, newImgs } = req.files;
 
-    if(newCardImg  ){
-        if(cardImg==='null'){
-            const query1= `UPDATE place SET card_img='${newCardImg[0].filename}' WHERE place_id='${id}'`;
-            DB.connection.query(query1,(err,result)=>{
-                    if(result){
-                        console.log(result);
-                    }else{
-                        console.log(err);
-                    }
-            })
-        }else if(cardImg!=='null'){
-            //delete file from storage
-            const filePath  = `./uploads/places/${cardImg}`;
-            try {
+    let cardImage_success = 0;
+    let cardImage_unsuccess = 0;
+
+    let coverImage_success = 0;
+    let coverImage_unsuccess = 0;
+
+    let deleteImage_success = 0;
+    let deleteImage_unsuccess = 0;
+
+    let newImgs_success = 0;
+    let newImgs_unsuccess = 0;
+
+    let data_success = 0;
+    let data_unsuccess = 0;
+
+    try {
+        // Handle newCardImg
+        if (newCardImg) {
+            if (cardImg === 'null') {
+                await DB.connection.query(`UPDATE place SET card_img='${newCardImg[0].filename}' WHERE place_id='${id}'`);
+                cardImage_success++;
+            } else if (cardImg !== 'null') {
+                const filePath = `./uploads/places/${cardImg}`;
                 await fs.unlink(filePath);
-                console.log('File deleted successfully');
-                const query1= `UPDATE place SET card_img='${newCardImg[0].filename}' WHERE place_id='${id}'`;
-                DB.connection.query(query1,(err,result)=>{
-                        if(result){
-                            console.log(result);
-                        }else{
-                            console.log(err);
-                        }
-                    })
-            } catch (error) {
-                console.log(error)
+                await DB.connection.query(`UPDATE place SET card_img='${newCardImg[0].filename}' WHERE place_id='${id}'`);
+                cardImage_success++;
             }
         }
-    }
 
-    if(newCoverImg){
-        if(coverImgs==='null'){
-            const query2= `UPDATE place SET cover_img='${newCoverImg[0].filename}' WHERE place_id='${id}'`;
-            DB.connection.query(query2,(err,result)=>{
-                    if(result){
-                        console.log(result);
-                    }else{
-                        console.log(err);
-                    }
-                })
-        }else if(coverImgs!=='null'){
-            //delete file from storage
-            const filePath  = `./uploads/places/${coverImgs}`;
-            try {
+        // Handle newCoverImg
+        if (newCoverImg) {
+            if (coverImgs === 'null') {
+                await DB.connection.query(`UPDATE place SET cover_img='${newCoverImg[0].filename}' WHERE place_id='${id}'`);
+                coverImage_success++;
+            } else if (coverImgs !== 'null') {
+                const filePath = `./uploads/places/${coverImgs}`;
                 await fs.unlink(filePath);
-                console.log('File deleted successfully');
-                const query2= `UPDATE place SET cover_img='${newCoverImg[0].filename}' WHERE place_id='${id}'`;
-                DB.connection.query(query2,(err,result)=>{
-                    if(result){
-                        console.log(result);
-                    }else{
-                        console.log(err);
-                    }
-                })
-            } catch (error) {
-                console.log(error)
+                await DB.connection.query(`UPDATE place SET cover_img='${newCoverImg[0].filename}' WHERE place_id='${id}'`);
+                coverImage_success++;
             }
-            
-            
         }
-    }
 
-    if (deletedImgs) {
-        if (Array.isArray(deletedImgs) && deletedImgs.length > 0) {
-            deletedImgs.forEach(async (image) => {
-                const filePath = `./uploads/places/${image}`;
-                try {
+        // Handle deletedImgs
+        if (deletedImgs) {
+            const deleteImages = Array.isArray(deletedImgs) ? deletedImgs : [deletedImgs];
+            await Promise.all(
+                deleteImages.map(async (image) => {
+                    const filePath = `./uploads/places/${image}`;
                     await fs.unlink(filePath);
-                     //delete image
-                const query3= `DELETE FROM place_img WHERE img_name='${image}'`;
-                DB.connection.query(query3,(err,result)=>{
-                    if(result){
-                        console.log(result);
-                    }else{
-                        console.log(err);
-                    }
+                    await DB.connection.query(`DELETE FROM place_img WHERE img_name='${image}'`);
+                    deleteImage_success++;
                 })
-                } catch (error) {
-                    console.log(error);
-                }
-            });
-        } else {
-            const filePath = `./uploads/places/${deletedImgs}`;
-            try {
-                await fs.unlink(filePath);
-
-                //delete image
-                const query3= `DELETE FROM place_img WHERE img_name='${deletedImgs}'`;
-                DB.connection.query(query3,(err,result)=>{
-                    if(result){
-                        console.log(result);
-                    }else{
-                        console.log(err);
-                    }
-                })
-            } catch (error) {
-                console.log(error);
-            }
+            );
         }
+
+        // Handle newImgs
+        if (newImgs) {
+            await Promise.all(
+                newImgs.map(async (img) => {
+                    await DB.connection.query(`INSERT INTO place_img (place_id, img_name) VALUES ('${id}', '${img.filename}')`);
+                    newImgs_success++;
+                })
+            );
+        }
+
+        // Handle other data updates
+        if (name || lat || lng || time || fee || description || short) {
+            await DB.connection.query(
+                `UPDATE place SET place_name='${name}', place_description='${description}', place_lat=${lat}, place_lng=${lng}, visit_time='${time}', visiting_fee='${fee}', short_description='${short}' WHERE place_id='${id}'`
+            );
+            data_success++;
+        }
+
+        // Response
+        let responseMessage = 'Update operation completed successfully';
+        let success = true;
+        if (cardImage_unsuccess > 0 || coverImage_unsuccess > 0 || deleteImage_unsuccess > 0 || newImgs_unsuccess > 0 || data_unsuccess > 0) {
+            responseMessage = 'Update operation failed';
+            success = false;
+        }
+
+        res.json({
+            success: success,
+            message: responseMessage,
+            cardImage: { success: cardImage_success, unsuccess: cardImage_unsuccess },
+            coverImage: { success: coverImage_success, unsuccess: coverImage_unsuccess },
+            deleteImage: { success: deleteImage_success, unsuccess: deleteImage_unsuccess },
+            newImgs: { success: newImgs_success, unsuccess: newImgs_unsuccess },
+            data: { success: data_success, unsuccess: data_unsuccess },
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-    
-    if(newImgs){
-        console.log(newImgs);
-        newImgs.forEach(async (img) => {
-            const query4= `INSERT INTO place_img (place_id,img_name) VALUES ('${id}','${img.filename}')`;
-            DB.connection.query(query4,(err,result)=>{
-                if(result){
-                    console.log(result);
-                }else{
-                    console.log(err);
-                }
-            })
-        })
-    }
-
-    if(name,lat ,lng,time,fee,description,short){
-        const query5= `UPDATE place SET place_name='${name}',place_description='${description}',place_lat=${lat},place_lng=${lng},visit_time='${time}',visiting_fee='${fee}',short_description='${short}' WHERE place_id='${id}'`;
-        DB.connection.query(query5,(err,result)=>{
-            if(result){
-                console.log(result);
-            }else{
-                console.log(err);
-            }
-        })
-    }
-
-
-
-
-  
-
-}
+};
 
 module.exports = PlaceUpdate;

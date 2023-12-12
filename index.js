@@ -17,21 +17,21 @@ const Vehicles = require('./routes/vahicle_routes')
 const User = require('./routes/user_routes')
 const Book = require('./routes/bookTour_routes')
 
+
 const Images = require('./routes/images_routes')
+
+const Request = require('./routes/request_routes')
 
 const app = express();
 
 DB.connect()
-// parse application/json
+
 app.use(bodyParser.json())
 app.use(express.json());
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
+app.use(cors({ origin: '*', credentials: true}));
 app.use(cookieParser());
+
 
 app.use('/places', Place);
 app.use('/categories', Category);
@@ -42,11 +42,17 @@ app.use('/hotels', Hotels);
 app.use('/popular', PopularPlace);
 app.use('/vehicles', Vehicles);
 app.use('/book', Book);
+app.use('/request', Request);
+
 
 app.use('/images', Images);
 
 
 app.use('/user', User);
+
+app.use((req, res) => {
+  res.status(404).send('Not Found');
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

@@ -2,7 +2,7 @@ const DB = require('../../config/database');
 
 const DayTourPlaces = (req,res) => {
     const { id } = req.params;
-    console.log(id)
+    // console.log(id)
     if(id){
         try {
             const sql =`

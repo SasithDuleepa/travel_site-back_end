@@ -1,85 +1,60 @@
 const DB = require('../../config/database');
 const fs = require('fs').promises;
 
-const DeleteTour = async(req,res) =>{
-    const {id} = req.params;
-    console.log(id)
-    if(id){
-        //delete from tour catergory
-        const query1 = `DELETE FROM tourcategory_tour WHERE tour_id = '${id}'`;
-        DB.connection.query(query1,(err,result)=>{
-            if(err) throw err;
-            console.log(result)
-        })
+const DeleteTour = async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
 
+    try {
+        // Delete from tour category
+        const query1 = `DELETE FROM tourcategory_tour WHERE tour_id = ?`;
+        await executeQuery(query1, [id]);
 
-        //delete image from file
-        const query5 = `SELECT tour_img FROM tour WHERE tour_id = '${id}'`;
-        DB.connection.query(query5,(err,result)=>{
-            if(result){
-                if(result.length>0){
-                    const image = result[0].tour_img;
-                    const path = `./uploads/tour/${image}`;
-                    try {
-                        fs.unlink(path);
-                        
-                        
-                    } catch (error) {
-                        console.log(error);
-                    }
-                    
+        // Get image name and delete from file
+        const query5 = `SELECT tour_img FROM tour WHERE tour_id = ?`;
+        const result5 = await executeQuery(query5, [id]);
 
-                }
-
-            }else{
-                console.log(err);
-            }
-        })
-
-
-        
-
-        //delete from tour
-        
-        //get day id
-        const query = `SELECT tour_date_id FROM tour_date WHERE tour_id = '${id}'`;
-        DB.connection.query(query,(err,result)=>{
-            if(result){
-                console.log(result)
-                if(result.length>0){
-                    result.forEach((element) => {
-                        const query2 = `DELETE FROM tour_places WHERE tour_date_id = '${element.tour_date_id}'`;
-                        DB.connection.query(query2,(err,result)=>{
-                            if(err) throw err;
-                            console.log(result)
-                        })
-                    });
-                }
-            }else(
-                console.log(err)
-            )
+        if (result5.length > 0) {
+            const image = result5[0].tour_img;
+            const path = `./uploads/tour/${image}`;
+            await fs.unlink(path);
         }
-            )
 
+        // Get day IDs
+        const query = `SELECT tour_date_id FROM tour_date WHERE tour_id = ?`;
+        const result = await executeQuery(query, [id]);
 
-        //delete from tour date
-        const query3 = `DELETE FROM tour_date WHERE tour_id = '${id}'`;
-        DB.connection.query(query3,(err,result)=>{
-            if(err) throw err;
-            console.log(result)
-        })
+        // Delete places for each day
+        for (const element of result) {
+            const query2 = `DELETE FROM tour_places WHERE tour_date_id = ?`;
+            await executeQuery(query2, [element.tour_date_id]);
+        }
 
-        //delete from tour
-        const query4 = `DELETE FROM tour WHERE tour_id = '${id}'`;
-        DB.connection.query(query4,(err,result)=>{
-            if(err) throw err;
-            console.log(result)
-        })
+        // Delete from tour date
+        const query3 = `DELETE FROM tour_date WHERE tour_id = ?`;
+        await executeQuery(query3, [id]);
 
+        // Delete from tour
+        const query4 = `DELETE FROM tour WHERE tour_id = ?`;
+        await executeQuery(query4, [id]);
 
-
-        
-
+        res.status(200).json({ status: 200, message: 'Tour deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 500, message: 'Something went wrong' });
     }
-}
-module.exports= DeleteTour;
+};
+
+const executeQuery = (query, values) => {
+    return new Promise((resolve, reject) => {
+        DB.connection.query(query, values, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+module.exports = DeleteTour;

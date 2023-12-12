@@ -5,20 +5,20 @@ const Updatedaytour = async (req, res) => {
     const { id } = req.params;
     // console.log(req.body);
 
-    const { daytour, description, distance, price, currentImg, startDescription, places } = req.body;
-    console.log(places);
+    const { daytour, description, distance,  currentImg, startDescription, places } = req.body;
+    // console.log(places);
 
     try {
         if (req.files[0]) {
             const newFileName = req.files[0].filename;
             const filePath = `./uploads/day_tour/${currentImg}`;
             await fs.unlink(filePath);
-            console.log('File deleted successfully');
+            // console.log('File deleted successfully');
         }
 
         const query1 = `
             UPDATE day_tour 
-            SET day_tour='${daytour}', description='${description}', distance='${distance}', price='${price}', img='${req.files[0] ? newFileName : currentImg}', start_description='${startDescription}' 
+            SET day_tour='${daytour}', description='${description}', distance='${distance}',  img='${req.files[0] ? newFileName : currentImg}', start_description='${startDescription}' 
             WHERE day_tour_id='${id}'`;
 
         DB.connection.query(query1, (err, result) => {

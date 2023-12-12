@@ -15,7 +15,7 @@ const TourPlacesAccToDate = (req,res) =>{
         DB.connection.query(query,(err,result)=>{
             if(result){
                 res.send(result)
-                console.log(result)
+            
             }else{
                 console.log(err)
             }

@@ -1,7 +1,7 @@
 const DB = require('../../config/database');
 
 const BookDayTour = (req,res) =>{
-    console.log(req.body);
+    // console.log(req.body);
     const {tour_id,passengers,date,total,user_id} = req.body;
 
     if(tour_id==='null' || passengers==='null' || date==='null' || total==='null' || user_id==='null'||

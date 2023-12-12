@@ -24,11 +24,13 @@ const TourUpdate = require('./../controllers/tours/tour_update')
 
 const DeleteTour = require('./../controllers/tours/delete_tour')
 
+const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
+
 
 const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/tour"))));
 
-router.post('/addTourCategory',upload.array('file',10), AddTourCategory);
+router.post('/addTourCategory',upload.array('file',10),AdminAuthenticate, AddTourCategory);
 
 router.get('/toursSearch/:tour',ToursSearch);    
 router.get('/tour/:tour', GetToursAccToId)
@@ -48,9 +50,9 @@ router.get('/tour_places/:tourdateid',TourPlaces)
 
 router.get('/tourimg',TourImg)
 
-router.put('/tourupdate/:id',upload.array('file',10),TourUpdate)
+router.put('/tourupdate/:id',upload.array('file',10),AdminAuthenticate,TourUpdate)
 
-router.delete('/tourdelete/:id',DeleteTour)
+router.delete('/tourdelete/:id',AdminAuthenticate,DeleteTour)
 
 
 

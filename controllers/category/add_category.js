@@ -14,11 +14,11 @@ const AddCategory = (req,res) =>{
         const query = `INSERT INTO category (category_id,category_name,category_description,category_img) VALUES ('${Id}','${category}','${description}','${img}')`;
         DB.connection.query(query,(err,result)=>{
             if(err){
-                res.send({status:400,message:"Something went wrong"})
+                res.status(400).send({message: "Something went wrong" })
                 console.log(err)
             }else if(result){
-                console.log(result)
-                // res.send({status:200,message:"Category added successfully"})
+                // console.log(result)
+
 
                 let processed = 0;
                 let Unprocessed = 0;
@@ -32,7 +32,8 @@ const AddCategory = (req,res) =>{
                                 Unprocessed++;
                                 if (Unprocessed === places.length) {
                                 
-                                res.send({ status: 500, message: "Something went wrong" });
+                           
+                                res.status(500).send({ message: "Something went wrong" });
                                 }
                             }else if(result){
                                 // console.log(result)
@@ -40,7 +41,8 @@ const AddCategory = (req,res) =>{
                                 processed++;
                                 if (processed === places.length) {
                                
-                                res.send({ status:200, message: " Category added successfully " });
+                               
+                                res.status(200).send({ message: " Category added successfully " });
                                 }
                             }
                         })
@@ -53,7 +55,7 @@ const AddCategory = (req,res) =>{
         
     })
 }else{
-    res.send({status:400,message:"fill all fields"})
+    res.status(400).send({message: "Something went wrong" })
 }
 
 }

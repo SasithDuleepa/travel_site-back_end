@@ -11,6 +11,8 @@ const DayTourPlaces = require('../controllers/day tour/daytour_places');
 const DayTourUpdate = require('../controllers/day tour/update_daytour');
 const DaytourPlaces = require('../controllers/day tour/daytourPlaces');
 
+const Delete = require('../controllers/day tour/delete_daytour');
+
 const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/day_tour"))));
 
@@ -21,5 +23,7 @@ router.get('/daytour/:id', DayTourAccToId);
 router.get('/places/:id', DayTourPlaces);
 router.put('/update/:id', upload.array('file'), DayTourUpdate);
 router.get('/place/:id', DaytourPlaces);
+
+router.delete('/delete/:id', Delete);
 
 module.exports = router;

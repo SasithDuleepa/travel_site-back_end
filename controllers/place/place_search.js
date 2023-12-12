@@ -5,7 +5,7 @@ const PlaceSearch = (req, res) => {
     // console.log(place);
     if(place){
 
-        const query = `SELECT * FROM place WHERE place_name LIKE '%${place}%'`;
+        const query = `SELECT * FROM place WHERE place_name LIKE '%${place}%' AND status != 'hide';`;
     DB.connection.query(query, (err, result) => {
         if (err) {
             console.log(err);

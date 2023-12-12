@@ -5,18 +5,18 @@ const { v4: uuidv4 } = require('uuid');
 const AddDayTour = (req,res) =>{
     console.log(req.body)
     console.log(req.files)
-    const{daytour,description,distance,price, places,startDescription} = req.body;
+    const{daytour,description,distance, places,startDescription} = req.body;
     let img = "null"
     {req.files[0]? img = req.files[0].filename:img}
 
     const Id = uuidv4();
-    if(daytour!==''&& description!==''&&price!==''&& places!==''&& distance!==''){
+    if(daytour!==''&& description!==''&& places!==''&& distance!==''){
 
-        const query = `INSERT INTO day_tour (day_tour_id,day_tour,description,price,img,start_description,distance) VALUES ('${Id}','${daytour}','${description}','${price}','${img}','${startDescription}','${distance}')`;
+        const query = `INSERT INTO day_tour (day_tour_id,day_tour,description,img,start_description,distance) VALUES ('${Id}','${daytour}','${description}','${img}','${startDescription}','${distance}')`;
         DB.connection.query(query,(err,result)=>{
             if(err){
-                res.send({status:400,message:"Something went wrong"})
-                console.log(err)
+                res.status(400).send({  message: "Something went wrong" });
+           
             }else if(result){
                 // console.log(result)
                 let processed = 0;
@@ -27,11 +27,11 @@ const AddDayTour = (req,res) =>{
                         const placequery = `INSERT INTO day_tour_places (day_tour_id,place_id,description) VALUES ('${Id}','${place.place}','${place.placeDescription}')`;
                         DB.connection.query(placequery,(err,result)=>{
                             if(err){
-                                console.log(err)
+                                
                                 Unprocessed++;
                                 if (Unprocessed === places.length) {
                                 
-                                res.send({ status: 500, message: "Something went wrong" });
+                                res.status(400).send({  message: "Something went wrong" });
                                 }
                             }else if(result){
                                 // console.log(result)
@@ -39,7 +39,7 @@ const AddDayTour = (req,res) =>{
                                 processed++;
                                 if (processed === places.length) {
                                 
-                                res.send({ status:200, message: " Day tour added successfully " });
+                                res.status(200).send({  message: "Day Tour Added" });
                                 }
                             }
                         })
@@ -53,7 +53,7 @@ const AddDayTour = (req,res) =>{
 
 
     }else{
-        res.send({status:400,message:"All fields are required"})
+        res.status(400).send({  message: "Something went wrong" });
     }
     
 }

@@ -6,7 +6,7 @@ const TourPlacesAccToDateId = (req,res) =>{
     try {
         // const query = `SELECT * FROM tour_places WHERE tour_date_id = '${tourdateid}'`;
         const query = `
-      SELECT place.*
+      SELECT place.*,tour_places.tour_place_description
       FROM tour_places
       INNER JOIN place ON tour_places.tour_places_id = place.place_id
       WHERE tour_places.tour_date_id = '${tourdateid}'`;

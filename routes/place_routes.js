@@ -25,11 +25,11 @@ const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/places"))));
 
 router.get('/placeimg', Placeimg);
-router.post('/addplace',AdminAuthenticate,upload.fields([
+router.post('/addplace',upload.fields([
                                         { name: 'cardImg', maxCount: 1 },
                                         { name: 'coverImgs', maxCount: 1 },
                                         { name: 'files', maxCount: 5 },
-  ]), AddPlace);
+  ]),AdminAuthenticate, AddPlace);
 
 
 

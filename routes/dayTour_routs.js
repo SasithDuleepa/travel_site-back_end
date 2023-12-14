@@ -13,17 +13,21 @@ const DaytourPlaces = require('../controllers/day tour/daytourPlaces');
 
 const Delete = require('../controllers/day tour/delete_daytour');
 
+
+const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
+
+
 const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/day_tour"))));
 
-router.post('/add', upload.array('file'), AddDayTour);
+router.post('/add', upload.array('file'),AdminAuthenticate, AddDayTour);
 router.get('/daytourimg', DayTourImg);
 router.get('/daytours', DayTour);
 router.get('/daytour/:id', DayTourAccToId);
 router.get('/places/:id', DayTourPlaces);
-router.put('/update/:id', upload.array('file'), DayTourUpdate);
+router.put('/update/:id', upload.array('file'),AdminAuthenticate, DayTourUpdate);
 router.get('/place/:id', DaytourPlaces);
 
-router.delete('/delete/:id', Delete);
+router.delete('/delete/:id',AdminAuthenticate, Delete);
 
 module.exports = router;

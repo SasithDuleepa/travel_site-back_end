@@ -6,6 +6,7 @@ const HotelPrices = require('../controllers/hotels/get_hotelPrices');
 const PriceAccToHotelAndDate = require('../controllers/hotels/price_accto_hotel_date');
 
 const PriceAcctoLuxury = require('../controllers/hotels/price_accto_luxury');
+const GetAll = require('../controllers/hotels/getAllHotels');
 
 const PriceAcctoSemiLuxury = require('../controllers/hotels/price_accto_semi');
 
@@ -26,4 +27,6 @@ router.get('/luxury/price/:id/:date', PriceAcctoLuxury);
 
 router.get('/semi/price/:id/:date', PriceAcctoSemiLuxury);
 
+
+router.get('/all', GetAll);
 module.exports = router;

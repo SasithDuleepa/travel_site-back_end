@@ -20,9 +20,6 @@ const LogIn = (req, res) => {
                     role: result[0].user_role
                 }, secret, { expiresIn: '9h' });
 
-
-                // res.cookie('jwt', token, { httpOnly: true, secure: false });
-                // res.token('jwt', token, { httpOnly: true, secure: false });
                 res.status(200).json({
                     message: 'Login successful', 
                     token:token,

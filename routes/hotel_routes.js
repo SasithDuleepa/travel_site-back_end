@@ -9,6 +9,10 @@ const PriceAcctoLuxury = require('../controllers/hotels/price_accto_luxury');
 const GetAll = require('../controllers/hotels/getAllHotels');
 
 const PriceAcctoSemiLuxury = require('../controllers/hotels/price_accto_semi');
+const SearchHotel = require('../controllers/hotels/searchHotel');
+const GetHotelAndPrice = require('../controllers/hotels/get_hotelandprice');
+const UpdateHotels = require('../controllers/hotels/update_hotels');
+const DeleteHotels = require('../controllers/hotels/delete_hotel');
 
 const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
 
@@ -26,6 +30,13 @@ router.get('/price/:id/:date', PriceAccToHotelAndDate);
 router.get('/luxury/price/:id/:date', PriceAcctoLuxury);
 
 router.get('/semi/price/:id/:date', PriceAcctoSemiLuxury);
+
+router.get('/search/:hotel', SearchHotel);
+router.get('/hotel/:id',GetHotelAndPrice);
+
+router.put('/update/:id',UpdateHotels);
+
+router.delete('/delete/:id', DeleteHotels);
 
 
 router.get('/all', GetAll);

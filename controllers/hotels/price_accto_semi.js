@@ -17,7 +17,7 @@ const PriceAcctoLuxury = (req,res) =>{
                                     console.error(err);
                                     res.status(500).json({ error: 'Internal Server Error' });
                                 } else {
-                                    console.log(result);
+                                    // console.log(result);
                                     res.json(result);
                                 }
                             })

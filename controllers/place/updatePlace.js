@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 
 const PlaceUpdate = async (req, res) => {
     const { id } = req.params;
-    const { coverImgs, cardImg, deletedImgs, name, lat, lng, time, fee, description, short } = req.body;
+    const { coverImgs, cardImg, deletedImgs, name,priority, lat, lng, time, fee, description, short } = req.body;
     const { newCoverImg, newCardImg, newImgs } = req.files;
 
     let cardImage_success = 0;
@@ -25,12 +25,12 @@ const PlaceUpdate = async (req, res) => {
         // Handle newCardImg
         if (newCardImg) {
             if (cardImg === 'null') {
-                await DB.connection.query(`UPDATE place SET card_img='${newCardImg[0].filename}' WHERE place_id='${id}'`);
+                await DB.connection.query('UPDATE place SET card_img=? WHERE place_id=?', [newCardImg[0].filename, id]);
                 cardImage_success++;
             } else if (cardImg !== 'null') {
                 const filePath = `./uploads/places/${cardImg}`;
                 await fs.unlink(filePath);
-                await DB.connection.query(`UPDATE place SET card_img='${newCardImg[0].filename}' WHERE place_id='${id}'`);
+                await DB.connection.query('UPDATE place SET card_img=? WHERE place_id=?', [newCardImg[0].filename, id]);
                 cardImage_success++;
             }
         }
@@ -38,12 +38,12 @@ const PlaceUpdate = async (req, res) => {
         // Handle newCoverImg
         if (newCoverImg) {
             if (coverImgs === 'null') {
-                await DB.connection.query(`UPDATE place SET cover_img='${newCoverImg[0].filename}' WHERE place_id='${id}'`);
+                await DB.connection.query('UPDATE place SET cover_img=? WHERE place_id=?', [newCoverImg[0].filename, id]);
                 coverImage_success++;
             } else if (coverImgs !== 'null') {
                 const filePath = `./uploads/places/${coverImgs}`;
                 await fs.unlink(filePath);
-                await DB.connection.query(`UPDATE place SET cover_img='${newCoverImg[0].filename}' WHERE place_id='${id}'`);
+                await DB.connection.query('UPDATE place SET cover_img=? WHERE place_id=?', [newCoverImg[0].filename, id]);
                 coverImage_success++;
             }
         }
@@ -55,7 +55,7 @@ const PlaceUpdate = async (req, res) => {
                 deleteImages.map(async (image) => {
                     const filePath = `./uploads/places/${image}`;
                     await fs.unlink(filePath);
-                    await DB.connection.query(`DELETE FROM place_img WHERE img_name='${image}'`);
+                    await DB.connection.query('DELETE FROM place_img WHERE img_name=?', [image]);
                     deleteImage_success++;
                 })
             );
@@ -65,17 +65,32 @@ const PlaceUpdate = async (req, res) => {
         if (newImgs) {
             await Promise.all(
                 newImgs.map(async (img) => {
-                    await DB.connection.query(`INSERT INTO place_img (place_id, img_name) VALUES ('${id}', '${img.filename}')`);
+                    await DB.connection.query('INSERT INTO place_img (place_id, img_name) VALUES (?, ?)', [id, img.filename]);
                     newImgs_success++;
                 })
             );
         }
 
         // Handle other data updates
-        if (name || lat || lng || time || fee || description || short) {
-            await DB.connection.query(
-                `UPDATE place SET place_name='${name}', place_description='${description}', place_lat=${lat}, place_lng=${lng}, visit_time='${time}', visiting_fee='${fee}', short_description='${short}' WHERE place_id='${id}'`
-            );
+        if (name || lat || lng || time || fee || description || short || priority) {
+            const updateValues = {
+                place_name: name,
+                priority: priority,
+                place_description: description,
+                place_lat: lat,
+                place_lng: lng,
+                visit_time: time,
+                visiting_fee: fee,
+                short_description: short,
+            };
+            const updateSet = Object.entries(updateValues)
+                .filter(([key, value]) => value !== undefined)
+                .map(([key, value]) => `${key}=?`)
+                .join(', ');
+
+            const updateQuery = `UPDATE place SET ${updateSet} WHERE place_id=?`;
+
+            await DB.connection.query(updateQuery, [...Object.values(updateValues), id]);
             data_success++;
         }
 

@@ -11,6 +11,7 @@ const formatDate = (date) => {
 };
 
 const UpdateHotels = async (req, res) => {
+    console.log(req.body)
     try {
         const { id } = req.params;
         const { hotel_name, lat, lang, type, new_prices, hotel_data } = req.body;

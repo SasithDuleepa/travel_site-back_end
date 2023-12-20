@@ -6,7 +6,7 @@ const AddPlace = (req, res) => {
     return res.status(400).json({ message: "No files attached" });
   }
 
-  const { name, description, time, fee, lat, lng, shortDescription } = req.body;
+  const { name,priority, description, time, fee, lat, lng, shortDescription } = req.body;
 
   if (!name || name === "" || !description || !time || !fee || !lat || !lng || !shortDescription) {
     return res.status(400).json({ message: "All fields are required" });
@@ -28,11 +28,11 @@ const AddPlace = (req, res) => {
     // Generate a new UUID
     const Id = uuidv4();
 
-    const insertQuery = `INSERT INTO place (place_id, place_name, place_description, place_lat, place_lng, visit_time, visiting_fee, short_description, card_img, cover_img, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')`;
+    const insertQuery = `INSERT INTO place (place_id, place_name, priority,place_description, place_lat, place_lng, visit_time, visiting_fee, short_description, card_img, cover_img, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')`;
 
     DB.connection.query(
       insertQuery,
-      [Id, name, description, lat, lng, time, fee, shortDescription, req.files.cardImg[0].filename, req.files.coverImgs[0].filename],
+      [Id, name,priority, description, lat, lng, time, fee, shortDescription, req.files.cardImg[0].filename, req.files.coverImgs[0].filename],
       (insertErr, insertResult) => {
         if (insertErr || !insertResult) {
           console.error(insertErr);

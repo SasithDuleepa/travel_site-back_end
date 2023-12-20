@@ -10,7 +10,7 @@ const HotelPrices = (req,res) =>{
             DB.connection.query(query,(err,result)=>{
                 if(err) throw err;
                 else{
-                    console.log(result)
+                    // console.log(result)
                     
                     res.json(result);
                 }
@@ -21,3 +21,8 @@ const HotelPrices = (req,res) =>{
     }
 }
 module.exports  = HotelPrices;
+
+
+
+
+

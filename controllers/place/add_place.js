@@ -7,6 +7,7 @@ const AddPlace = (req, res) => {
   }
 
   const { name,priority, description, time, fee, lat, lng, shortDescription } = req.body;
+  console.log(req.body)
 
   if (!name || name === "" || !description || !time || !fee || !lat || !lng || !shortDescription) {
     return res.status(400).json({ message: "All fields are required" });

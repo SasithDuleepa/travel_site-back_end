@@ -30,7 +30,12 @@ const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
 const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/tour"))));
 
-router.post('/addTourCategory',upload.array('file',10),AdminAuthenticate, AddTourCategory);
+// router.post('/addTourCategory',upload.array('file',10),AdminAuthenticate, AddTourCategory);
+
+router.post('/addTourCategory',upload.fields([
+    { name: 'coverImage', maxCount: 1 },
+    { name: 'file', maxCount: 10 },
+]),AdminAuthenticate, AddTourCategory);
 
 router.get('/toursSearch/:tour',ToursSearch);    
 router.get('/tour/:tour', GetToursAccToId)

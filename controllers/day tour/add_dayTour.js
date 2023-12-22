@@ -4,18 +4,19 @@ const { v4: uuidv4 } = require('uuid');
 const AddDayTour = (req, res) => {
   console.log(req.body);
   console.log(req.files);
-  const { daytour, description, distance, places, startDescription } = req.body;
-  const img = req.files[0] ? req.files[0].filename : null;
+  const { daytour, description,organizingcost, distance, places, startDescription } = req.body;
+  const img = req.files.file ? req.files.file[0].filename : null;
+  const coverImg = req.files.coverImg ? req.files.coverImg[0].filename : null;
 
   const Id = uuidv4();
 
   if (daytour !== '' && description !== '' && places !== '' && distance !== '') {
     const mainQuery =
-      'INSERT INTO day_tour (day_tour_id, day_tour, description, img, start_description, distance) VALUES (?, ?, ?, ?, ?, ?)';
+      'INSERT INTO day_tour (day_tour_id, day_tour, description, img, start_description, distance,organizing_cost,cover_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
     DB.connection.query(
       mainQuery,
-      [Id, daytour, description, img, startDescription, distance],
+      [Id, daytour, description, img, startDescription, distance, organizingcost, coverImg],
       (err, mainResult) => {
         if (err) {
           console.error(err);

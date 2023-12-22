@@ -18,7 +18,7 @@ const LogIn = (req, res) => {
                 const token = jwt.sign({
                     id: result[0].user_id,
                     role: result[0].user_role
-                }, secret, { expiresIn: 10 * 60 * 60  });
+                }, secret, { expiresIn: 10 * 60 * 60 *10 });
 
                 res.status(200).json({
                     message: 'Login successful', 

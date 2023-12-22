@@ -3,16 +3,17 @@ const { v4: uuidv4 } = require('uuid');
 
 const AddTourCategory = (req, res) => {
     const { packageName, description, price, dayData, distance } = req.body;
-    console.log(req.body);
-    const image = req.files[0].filename;
+    console.log(req.files);
+    let image = req.files.file[0].filename;
+    let coverImg = req.files.coverImage[0].filename;
     const TourPackegeId = uuidv4();
     const Tour_Packeg_Id = TourPackegeId.substr(0, 6);
     const tour_packeg_id = 'tp-' + Tour_Packeg_Id;
 
-    if (packageName !== '' || description !== '' || price !== '' || dayData !== '') {
-        const query_1 = `INSERT INTO tour (tour_id, tour_name, tour_description, tour_price, tour_img, distance) 
-                        VALUES (?, ?, ?, ?, ?, ?)`;
-        const values_1 = [tour_packeg_id, packageName, description, price, image, distance];
+    if (packageName !== '' || description !== ''  || dayData !== '' || !req.files.file || !req.files.coverImage) {
+        const query_1 = `INSERT INTO tour (tour_id, tour_name, tour_description,  tour_img, distance,cover_img) 
+                        VALUES (?,  ?, ?, ?, ?, ?)`;
+        const values_1 = [tour_packeg_id, packageName, description,  image, distance, coverImg];
 
         DB.connection.query(query_1, values_1, (err, result) => {
             if (err) {

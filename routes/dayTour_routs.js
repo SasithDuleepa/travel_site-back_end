@@ -20,12 +20,18 @@ const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
 const router = express.Router();
 router.use(express.static(path.join((__dirname, "uploads/day_tour"))));
 
-router.post('/add', upload.array('file'),AdminAuthenticate, AddDayTour);
+router.post('/add', upload.fields([
+    { name: 'coverImg', maxCount: 1 },
+    { name: 'file', maxCount: 10 },
+]),AdminAuthenticate, AddDayTour);
 router.get('/daytourimg', DayTourImg);
 router.get('/daytours', DayTour);
 router.get('/daytour/:id', DayTourAccToId);
 router.get('/places/:id', DayTourPlaces);
-router.put('/update/:id', upload.array('file'),AdminAuthenticate, DayTourUpdate);
+router.put('/update/:id', upload.fields([
+    { name: 'coverImg', maxCount: 1 },
+    { name: 'file', maxCount: 10 },
+]),AdminAuthenticate, DayTourUpdate);
 router.get('/place/:id', DaytourPlaces);
 
 router.delete('/delete/:id',AdminAuthenticate, Delete);

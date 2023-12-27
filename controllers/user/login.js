@@ -18,7 +18,7 @@ const LogIn = (req, res) => {
                 const token = jwt.sign({
                     id: result[0].user_id,
                     role: result[0].user_role
-                }, secret, { expiresIn: '1h' });
+                }, secret, { expiresIn: '10h' });
                 console.log(date)
                 console.log(timedatectl)
                 console.log('Token generated at:', new Date());

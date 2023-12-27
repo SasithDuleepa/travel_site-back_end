@@ -2,7 +2,7 @@ const DB = require('../../config/database');
 
 const GetTourCategoryAccToId = (req,res) =>{
     const { tour } = req.params;
-    console.log(tour)
+    // console.log(tour)
 
     try {
         const query = `SELECT * FROM tourcategory WHERE tourcategory_id = '${tour}'`;

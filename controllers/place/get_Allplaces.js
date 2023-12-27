@@ -6,7 +6,7 @@ const AllPlaces =(req,res) =>{
         if(err){
             res.json({ status:400 ,  message:"eror" })
         }else if(result){
-            console.log(result);
+            
             res.json({ status:200 ,  message:"success" , data:result })
         }
     

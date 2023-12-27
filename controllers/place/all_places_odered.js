@@ -7,7 +7,7 @@ const AllPlacesPrioritized = (req,res) => {
         if(err){
             res.json({ status:400 ,  message:"error" })
         }else if(result){
-            console.log(result);
+           
             res.json({ status:200 ,  message:"success" , data:result })
         }
     

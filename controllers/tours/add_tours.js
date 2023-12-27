@@ -2,7 +2,7 @@ const DB = require('../../config/database');
 const { v4: uuidv4 } = require('uuid');
 
 const AddTourCategory = (req, res) => {
-    const { packageName, description, price, dayData, distance } = req.body;
+    const { packageName, description, price, dayData, distance ,days} = req.body;
     console.log(req.files);
     let image = req.files.file[0].filename;
     let coverImg = req.files.coverImage[0].filename;
@@ -11,9 +11,9 @@ const AddTourCategory = (req, res) => {
     const tour_packeg_id = 'tp-' + Tour_Packeg_Id;
 
     if (packageName !== '' || description !== ''  || dayData !== '' || !req.files.file || !req.files.coverImage) {
-        const query_1 = `INSERT INTO tour (tour_id, tour_name, tour_description,  tour_img, distance,cover_img) 
-                        VALUES (?,  ?, ?, ?, ?, ?)`;
-        const values_1 = [tour_packeg_id, packageName, description,  image, distance, coverImg];
+        const query_1 = `INSERT INTO tour (tour_id, tour_name, tour_description,  tour_img, distance,cover_img,days) 
+                        VALUES (?,  ?, ?, ?, ?, ?,?)`;
+        const values_1 = [tour_packeg_id, packageName, description,  image, distance, coverImg,days];
 
         DB.connection.query(query_1, values_1, (err, result) => {
             if (err) {

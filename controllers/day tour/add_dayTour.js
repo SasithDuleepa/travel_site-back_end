@@ -8,15 +8,17 @@ const AddDayTour = (req, res) => {
   const img = req.files.file ? req.files.file[0].filename : null;
   const coverImg = req.files.coverImg ? req.files.coverImg[0].filename : null;
 
+  const homeImg = req.files.homeImage ? req.files.homeImage[0].filename : null;
+
   const Id = uuidv4();
 
   if (daytour !== '' && description !== '' && places !== '' && distance !== '') {
     const mainQuery =
-      'INSERT INTO day_tour (day_tour_id, day_tour, description, img, start_description, distance,organizing_cost,cover_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+      'INSERT INTO day_tour (day_tour_id, day_tour, description, img, start_description, distance,organizing_cost,cover_img,home_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
     DB.connection.query(
       mainQuery,
-      [Id, daytour, description, img, startDescription, distance, organizingcost, coverImg],
+      [Id, daytour, description, img, startDescription, distance, organizingcost, coverImg,homeImg],
       (err, mainResult) => {
         if (err) {
           console.error(err);

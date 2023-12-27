@@ -17,7 +17,22 @@ const DeleteTour = async (req, res) => {
         if (result5.length > 0) {
             const image = result5[0].tour_img;
             const path = `./uploads/tour/${image}`;
-            await fs.unlink(path);
+            try {
+                await fs.unlink(path);
+            } catch (error) {
+                
+            }
+            
+        }
+        if (result5.length > 0) {
+            const image = result5[0].cover_img;
+            const path = `./uploads/tour/${image}`;
+            try {
+                await fs.unlink(path);
+            } catch (error) {
+                
+            }
+            
         }
 
         // Get day IDs

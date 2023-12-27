@@ -3,7 +3,7 @@ const DB = require('../../config/database');
 
 const GetToursAccToId = (req,res) =>{
     const { tour } = req.params;
-    console.log(tour)
+    // console.log(tour)
 
     try {
 

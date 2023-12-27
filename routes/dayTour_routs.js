@@ -10,6 +10,7 @@ const DayTourAccToId = require('../controllers/day tour/daytour_id');
 const DayTourPlaces = require('../controllers/day tour/daytour_places');
 const DayTourUpdate = require('../controllers/day tour/update_daytour');
 const DaytourPlaces = require('../controllers/day tour/daytourPlaces');
+const DayTourSearch = require('../controllers/day tour/day_tour_search')
 
 const Delete = require('../controllers/day tour/delete_daytour');
 
@@ -22,6 +23,7 @@ router.use(express.static(path.join((__dirname, "uploads/day_tour"))));
 
 router.post('/add', upload.fields([
     { name: 'coverImg', maxCount: 1 },
+    { name: 'homeImage', maxCount: 1 },
     { name: 'file', maxCount: 10 },
 ]),AdminAuthenticate, AddDayTour);
 router.get('/daytourimg', DayTourImg);
@@ -31,9 +33,13 @@ router.get('/places/:id', DayTourPlaces);
 router.put('/update/:id', upload.fields([
     { name: 'coverImg', maxCount: 1 },
     { name: 'file', maxCount: 10 },
+    { name: 'homeImg', maxCount: 1 },
 ]),AdminAuthenticate, DayTourUpdate);
 router.get('/place/:id', DaytourPlaces);
 
 router.delete('/delete/:id',AdminAuthenticate, Delete);
+
+
+router.get('/search/:tour',DayTourSearch)
 
 module.exports = router;

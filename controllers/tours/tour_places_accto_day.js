@@ -4,7 +4,7 @@ const DB = require('../../config/database');
 
 const TourPlacesAccToDate = (req,res) =>{
     const { tourdateid } = req.params;
-    console.log(tourdateid)
+    // console.log(tourdateid)
     try {
         // const query = `SELECT * FROM tour_places WHERE tour_date_id = '${tourdateid}'`;
         const query = `

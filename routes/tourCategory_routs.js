@@ -8,7 +8,8 @@ const GetTourCategories = require('./../controllers/tour category/get_tourCatego
 const TourCategory = require('./../controllers/tour category/tour_category.js')
 const TourAccToCategoryId = require('./../controllers/tour category/tour_accto_categoryid.js')
 const UpdateTourCategory = require('./../controllers/tour category/update.js')
-const Delete = require('./../controllers/tour category/delete.js')
+const Delete = require('./../controllers/tour category/delete.js');
+const TourCategorySearch = require('./../controllers/tour category/search.js');
 
 const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
 
@@ -27,6 +28,8 @@ router.get('/tour/:id',TourAccToCategoryId);
 router.put('/update/:id',upload.array('file'),AdminAuthenticate,UpdateTourCategory);
 
 router.delete('/delete/:id',AdminAuthenticate,Delete);
+
+router.get('/search/:category',TourCategorySearch);
 
 router.get('/getall',GetTourCategories);
 module.exports = router;

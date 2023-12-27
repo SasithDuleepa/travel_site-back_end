@@ -14,9 +14,14 @@ const Delete = async (req, res) => {
         const result = await executeQuery(query, [id]);
 
         if (result.length > 0) {
-            const image = result[0].img;
+            try {
+                const image = result[0].img;
             const path = `./uploads/day_tour/${image}`;
             await fs.unlink(path);
+            } catch (error) {
+                
+            }
+            
         }
 
         // Delete from day_tour

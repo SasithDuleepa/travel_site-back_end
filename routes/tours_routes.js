@@ -55,7 +55,10 @@ router.get('/tour_places/:tourdateid',TourPlaces)
 
 router.get('/tourimg',TourImg)
 
-router.put('/tourupdate/:id',upload.array('file',10),AdminAuthenticate,TourUpdate)
+router.put('/tourupdate/:id',upload.fields([
+    { name: 'new_image', maxCount: 1 },
+    { name: 'new_cover_image', maxCount: 1 },
+]),AdminAuthenticate,TourUpdate)
 
 router.delete('/tourdelete/:id',AdminAuthenticate,DeleteTour)
 

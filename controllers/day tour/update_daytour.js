@@ -4,6 +4,7 @@ const fs = require('fs').promises;
 const Updatedaytour = async (req, res) => {
     const { id } = req.params;
     const { daytour, description, distance,organizingCost, currentImg,currentCoverImg, startDescription, places,currentHomeImg } = req.body;
+    console.log(req.body);
 
     try {
         if (req.files.file) {
@@ -23,7 +24,7 @@ const Updatedaytour = async (req, res) => {
             try {
                 await fs.unlink(filePath);
             } catch (error) {
-                
+                console.log(error);
             }
         }
         if (req.files.homeImg) {
@@ -33,7 +34,7 @@ const Updatedaytour = async (req, res) => {
             try {
                 await fs.unlink(filePath);
             } catch (error) {
-                
+                console.log(error);
             }
         }
 

@@ -16,6 +16,7 @@ const PopularPlace =require('./routes/popularPlace_routes')
 const Vehicles = require('./routes/vahicle_routes')
 const User = require('./routes/user_routes')
 const Book = require('./routes/bookTour_routes')
+const Data = require('./routes/data_routes')
 
 
 const Images = require('./routes/images_routes')
@@ -52,6 +53,8 @@ app.use('/request', Request);
 
 
 app.use('/images', Images);
+
+app.use('/data', Data);
 
 
 app.use('/user', User);

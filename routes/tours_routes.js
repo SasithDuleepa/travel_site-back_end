@@ -10,6 +10,8 @@ const GetToursAccToId = require('../controllers/tours/tour_acc_Id')
 const GetTourCategoryAccToId =  require('../controllers/tours/tourcategory_acc_id')
 const ToursAccToTourCategory =require('../controllers/tours/tours_acc_tourcategory')
 
+
+const ToursAccToId = require('../controllers/tours/tour_tour_id')
 const GetTourDays = require('../controllers/tours/tour_days')
 
 const TourPlacesAccToDateId = require('../controllers/tours/tour_places')
@@ -39,6 +41,8 @@ router.post('/addTourCategory',upload.fields([
 
 router.get('/toursSearch/:tour',ToursSearch);    
 router.get('/tour/:tour', GetToursAccToId)
+
+router.get('/tour/tour/:tour', ToursAccToId)
 router.get('/tourcategory/:tourcategory', GetTourCategoryAccToId)
 
 

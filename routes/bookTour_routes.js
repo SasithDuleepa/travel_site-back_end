@@ -2,17 +2,21 @@ const express = require('express');
 
 const BookDayTour = require('../controllers/day tour book/dayTourBook');
 const PendingDayTours = require('../controllers/day tour book/pendingDayTours');
+const GetDayTours = require('../controllers/day tour book/getDayTours');
 
 const BookTour = require('../controllers/tour book/tourBook');
 const PendingTours = require('../controllers/tour book/pendingTours');
+const GetTours = require('../controllers/tour book/getTours');
 
 const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
 
 const router = express.Router();
 
-router.post('/bookDayTour',AdminAuthenticate, BookDayTour);
+router.get('/getDayTours', GetDayTours);
+router.post('/bookDayTour', BookDayTour);
 router.get('/pendingDayTours/:id', PendingDayTours);
 
+router.get('/getTours', GetTours);
 router.post('/bookTour', BookTour);
 router.get('/pendingTours/:id', PendingTours);
 

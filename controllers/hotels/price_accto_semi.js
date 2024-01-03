@@ -1,4 +1,4 @@
-
+const DB = require('../../config/database');
 
 const PriceAcctoLuxury = (req,res) =>{
     const { id, date } = req.params;

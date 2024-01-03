@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 const { v4: uuidv4 } = require('uuid');
 
 const TourUpdate = async (req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
 
     const { id, name, description, image, new_image, cover_image, new_cover_image, distance,days, dayData } = req.body;
 

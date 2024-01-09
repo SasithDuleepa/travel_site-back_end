@@ -5,6 +5,7 @@ const {GetSlider,UpdateSlider} = require('../controllers/descriptions/tp_slider'
 const {GetTP,UpdateTP} = require('../controllers/descriptions/tour_package');
 const {GetDTP,UpdateDTP} = require('../controllers/descriptions/daytour_package');
 const {GetChairman,UpdateChairman} = require('../controllers/descriptions/chairman');
+const {GetPopularPlaces,UpdatePopularPlaces} = require('../controllers/descriptions/popular_places');
  
 
 const router = express.Router();
@@ -24,6 +25,9 @@ router.put('/daytour_package',UpdateDTP);
 
 router.get('/chairman',GetChairman);
 router.put('/chairman',UpdateChairman);
+
+router.get('/popular_places',GetPopularPlaces);
+router.put('/popular_places',UpdatePopularPlaces);
 
 
 

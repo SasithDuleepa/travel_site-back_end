@@ -23,6 +23,7 @@ const AddTourCategory = (req, res) => {
 
             // Days
             let dayDataArray = JSON.parse(dayData);
+            console.log(dayDataArray);  
             dayDataArray.forEach(async (element) => {
                 const DayId = uuidv4();
                 const Day_Id = DayId.substr(0, 6);
@@ -30,7 +31,7 @@ const AddTourCategory = (req, res) => {
 
                 const query_2 = `INSERT INTO tour_date (tour_date_id, tour_id, tour_date, luxary_hotel, semi_hotel, start_description)
                                 VALUES (?, ?, ?, ?, ?, ?)`;
-                const values_2 = [day_id, tour_packeg_id, element.day, element.luxury, element.semiluxury, element.startdescription];
+                const values_2 = [day_id, tour_packeg_id, element.day, element.luxury_id, element.semiluxury_id, element.startdescription];
 
                 try {
                     await executeQuery(query_2, values_2);

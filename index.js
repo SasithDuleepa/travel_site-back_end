@@ -19,6 +19,9 @@ const Book = require('./routes/bookTour_routes')
 const Data = require('./routes/data_routes')
 const Description = require('./routes/description_routes')
 const Team = require('./routes/team_routes') 
+const Agents = require('./routes/agents_routes')
+
+const PromoteCode = require('./routes/promote_code')
 
 
 const Images = require('./routes/images_routes')
@@ -54,6 +57,8 @@ app.use('/book', Book);
 app.use('/request', Request);
 app.use('/description', Description);
 app.use('/team', Team);
+app.use('/agents', Agents);
+app.use('/promote', PromoteCode);
 
 
 app.use('/images', Images);

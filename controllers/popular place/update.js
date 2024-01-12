@@ -7,29 +7,34 @@ const UpdatePopularPlaces =(req,res) =>{
     let success = 0;
     let failed = 0;
 
-    if(data.length>0){
+    if(data){
         //clear table
-        const query = `DELETE FROM popular_place`
+        const query = `DELETE  FROM popular_place`
         DB.connection.query(query,(err,result)=>{
             if(err){
+                console.log(err)
                 res.status(500).send(err)
             }else if(result){
-
-
-                data.forEach(element => {
-                    const query = `INSERT INTO popular_place (place_id) VALUES ('${element.place_id}')`
-                    DB.connection.query(query,(err,result)=>{
-                        if(err){
-                            console.log(err)
-                            failed++
-                        
-                        }else if(result){
-                            success++
+                if(data.length>0){
+                    data.forEach(element => {
+                        const query = `INSERT INTO popular_place (place_id) VALUES ('${element.place_id}')`
+                        DB.connection.query(query,(err,result)=>{
+                            if(err){
+                                console.log(err)
+                                failed++
                             
-                        }
+                            }else if(result){
+                                success++
+                                
+                            }
+                        })
+            
                     })
-        
-                })
+
+                }
+
+
+                
 
 
                 if(failed>0){

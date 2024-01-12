@@ -28,6 +28,17 @@ const Delete = async (req, res) => {
         // Find place images
         const query2 = `SELECT img_name FROM place_img WHERE place_id = ?`;
         const result2 = await executeQuery(query2, [id]);
+        try {
+            console.log(result2)
+            if (result2.length > 0) {
+                for (const image of result2) {
+                    const path = `./uploads/places/${image.img_name}`;
+                    await fs.unlink(path);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
 
         try {
             if (result2.length > 0) {

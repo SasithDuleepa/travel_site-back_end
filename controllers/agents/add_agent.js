@@ -16,6 +16,16 @@ const AddAgent = (req,res) => {
         DB.connection.query(query1, values1, (err, result) => {
             if (err) {
 
+                res.json({
+                    status:400,
+                    message:"Error checking email"
+                })
+                
+            }
+            if (result.length > 0) {
+                // User with the same name already exists
+                return res.status(409).json({ message: "User with the same name already exists" });
+            }else{
                 const query = "INSERT INTO user (user_id,fname, email, password,user_role) VALUES (?,?,?,?,?)";
                 const values = [agent, name, email, password, 'agent'];
                 DB.connection.query(query, values, (err, result) => {
@@ -25,11 +35,6 @@ const AddAgent = (req,res) => {
                     }
                     return res.status(200).json({ message: "Agent added successfully" });
                 })
-                
-            }
-            if (result.length > 0) {
-                // User with the same name already exists
-                return res.status(409).json({ message: "User with the same name already exists" });
             }
         })
     

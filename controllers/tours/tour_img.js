@@ -7,7 +7,7 @@ const tourimg = async(req,res) =>{
     const parsedUrl = url.parse(urlString);
     const queryParams = querystring.parse(parsedUrl.query);
     const parameter = queryParams.file;
-    // console.log(parameter)
+    // console.log(queryParams)
 
     if(!parameter||parameter === null || parameter === undefined|| parameter === 'undefined' || parameter === "" || parameter==='null')
     {

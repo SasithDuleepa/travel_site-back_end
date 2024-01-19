@@ -38,7 +38,9 @@ shotel.hotel_name AS semi_hotel,
 shotel.hotel_id AS semi_hotel_id,
 tp.tour_places_id,
 tp.tour_place_description,
-pl.place_name
+pl.place_name,
+pl.card_img,
+pl.cover_img AS place_cover_img
 
 FROM
 tour t

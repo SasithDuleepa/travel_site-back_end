@@ -7,6 +7,8 @@ const GetDayTours = require('../controllers/day tour book/getDayTours');
 const BookTour = require('../controllers/tour book/tourBook');
 const PendingTours = require('../controllers/tour book/pendingTours');
 const GetTours = require('../controllers/tour book/getTours');
+const ToursAccToAgent = require('../controllers/tour book/toursAccToAgent');
+const ToursAccToCode  = require('../controllers/tour book/toursAccToCode');
 
 const {AdminAuthenticate} = require('./../middleware/auth/admin_authenticate');
 
@@ -19,5 +21,7 @@ router.get('/pendingDayTours/:id', PendingDayTours);
 router.get('/getTours', GetTours);
 router.post('/bookTour', BookTour);
 router.get('/pendingTours/:id', PendingTours);
+router.get('/toursAccToAgent/:id', ToursAccToAgent);
+router.get('/toursAccToCode/:id', ToursAccToCode);
 
 module.exports = router;
